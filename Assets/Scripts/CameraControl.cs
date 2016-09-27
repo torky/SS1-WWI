@@ -165,11 +165,6 @@ public class CameraControl : MonoBehaviour
 
         Debug.Log("x: " + x + ", y: " + y + ", width: " + width + ", height: " + height);
         Rect r = new Rect(topX, Screen.height - topY, width, height);
-        //GUIStyle guiStyle = new GUIStyle();
-        //if (width > 10 && height > 10)
-        //{
-        //    GUI.Label(r, "");
-        //}
         DrawQuad(r, new Color(0, 0, 255, .5F));
 
     }
