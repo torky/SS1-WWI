@@ -72,20 +72,16 @@ public class CameraControl : MonoBehaviour
         {
             GameObject rightSelected = rightCursor.GetSelected();
             //Check for team tag later. This is techdebt that needs to be added later on.
-            if (rightSelected != null && rightSelected.CompareTag("Unit"))
+            foreach (GameObject selectedObject in selected)
             {
-                foreach (GameObject selectedObject in selected)
+                Unit selectedUnit = selectedObject.GetComponent(typeof(Unit)) as Unit;
+                if (rightSelected.CompareTag("Unit"))
                 {
-                    Unit selectedUnit = selectedObject.GetComponent(typeof(Unit)) as Unit;
                     selectedUnit.target = rightSelected;
                     selectedUnit.state = (int)Unit.Mode.MoveToTarget;
                 }
-            }
-            else
-            {
-                foreach (GameObject selectedObject in selected)
+                else
                 {
-                    Unit selectedUnit = selectedObject.GetComponent(typeof(Unit)) as Unit;
                     selectedUnit.Stop();
                     selectedUnit.targetPoint = new Vector3(rightClickCursor.transform.position.x, 0, rightClickCursor.transform.position.z);
                     selectedUnit.state = (int)Unit.Mode.MoveToPoint;
@@ -128,6 +124,8 @@ public class CameraControl : MonoBehaviour
             if (objectSelected.tag.Equals("Unit"))
             {
                 selected.Add(objectSelected);
+                Unit u = objectSelected.GetComponent(typeof(Unit)) as Unit;
+                u.listsContainingThis.Add(selected);
             }
             Debug.Log(objectSelected);
         }
@@ -152,13 +150,14 @@ public class CameraControl : MonoBehaviour
         if (width < 0)
         {
             width *= -1;
-            topX = x-width;
+            topX = x - width;
         }
 
         if (height < 0)
         {
             height *= -1;
-        }else
+        }
+        else
         {
             topY = y + height;
         }

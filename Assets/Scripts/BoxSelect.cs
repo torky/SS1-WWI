@@ -30,6 +30,8 @@ public class BoxSelect
             if (IsBetween(x, z, startHit, endHit))
             {
                 unitsSelected.Add(unit);
+                Unit u = unit.GetComponent<Unit>();
+                u.listsContainingThis.Add(unitsSelected);
             }
         }
 

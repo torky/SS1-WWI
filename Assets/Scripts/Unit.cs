@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Unit : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Unit : MonoBehaviour
     public int health = 100;
     public float attackSpeed = 1F;
     bool reloaded = true;
+
+    public List<List<GameObject>> listsContainingThis;
 
     public const float STANDARD_ARRIVAL_RANGE = 2F;
     public enum Mode : int
@@ -36,6 +39,7 @@ public class Unit : MonoBehaviour
         unit = GetComponent<Rigidbody>();
         targetPoint = new Vector3(150, 0, 150);
         range = 30F;
+        listsContainingThis = new List<List<GameObject>>();
     }
 
     // Update is called once per frame
@@ -64,6 +68,11 @@ public class Unit : MonoBehaviour
 
                 break;
             case (int)Mode.Dead:
+                //remove from collection
+                foreach(List<GameObject> list in listsContainingThis)
+                {
+                    list.Remove(this.gameObject);
+                }
                 Destroy(this.gameObject);
                 break;
             default:
